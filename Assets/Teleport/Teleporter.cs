@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using StarterAssets;
 using UnityEngine;
 
 public class Teleporter : MonoBehaviour
@@ -13,17 +12,16 @@ public class Teleporter : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var controller = other.gameObject.GetComponent<FirstPersonController>();
-            controller.enabled = false;
+            other.gameObject.SetActive(false);
             other.transform.position = exitSpot.transform.position + exitPositionOffset;
             other.transform.rotation = exitSpot.transform.rotation;
-            StartCoroutine("ReactivateControl", controller);
+            StartCoroutine("ReactivateControl", other.gameObject);
         }
     }
 
-    IEnumerator ReactivateControl(FirstPersonController controller)
+    IEnumerator ReactivateControl(GameObject controller)
     {
         yield return new WaitForSeconds(exitFreezeInterval);
-        controller.enabled = true;
+        controller.SetActive(true);
     }
 }
